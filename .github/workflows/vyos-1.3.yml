@@ -39,11 +39,7 @@ jobs:
         working-directory: vyos-build
         run: |
           set -eux
-          ./configure \
-            --architecture amd64 \
-            --build-by matthew@tech.bymatt.au \
-            --build-type release \
-            --version ${{ env.RELEASE_VERSION }}
+          ./configure --architecture amd64 --build-by matthew@tech.bymatt.au --build-type release --version ${{ env.RELEASE_VERSION }}
       - name: Build ISO
         working-directory: vyos-build
         run: |
