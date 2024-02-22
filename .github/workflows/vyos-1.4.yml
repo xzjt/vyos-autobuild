@@ -3,6 +3,8 @@ name: VyOS 1.4
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * SAT'
 
 jobs:
   build-iso:
