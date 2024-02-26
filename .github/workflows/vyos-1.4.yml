@@ -47,7 +47,7 @@ jobs:
         id: get-tag-commit-id
         working-directory: vyos-build
         run: |
-          echo "commit=$(git rev-parse --short refs/tags/${{ steps.get-upstream-tag.outputs.latest }}"
+          echo "commit=$(git rev-list --max-count=1 tags/${{ steps.get-upstream-tag.outputs.latest }})" >> "$GITHUB_OUTPUT"
 
       - name: Build the VyOS ISO
         id: build-iso
