@@ -43,6 +43,12 @@ jobs:
           set -eux
           git checkout tags/${{ steps.get-upstream-tag.outputs.latest }}
 
+      - name: Get the latest commit ID for the tag
+        id: get-tag-commit-id
+        working-directory: vyos-build
+        run: |
+          echo "commit=$(git rev-parse --short refs/tags/${{ steps.get-upstream-tag.outputs.latest }}"
+
       - name: Build the VyOS ISO
         id: build-iso
         working-directory: vyos-build
@@ -58,6 +64,9 @@ jobs:
           tag: "${{ steps.get-upstream-tag.outputs.latest }}"
           artifacts: "vyos-build/build/vyos-${{ steps.get-upstream-tag.outputs.latest }}-amd64.iso"
           artifactContentType: application/x-iso9660-image
+          body: |
+            VyOS ${{ steps.get-upstream-tag.outputs.latest }}
+            Last upstream commit: https://github.com/vyos/vyos-build/commit/${{ steps.get-tag-commit-id.outputs.commit }}
           draft: true
           allowUpdates: true
           omitDraftDuringUpdate: true
