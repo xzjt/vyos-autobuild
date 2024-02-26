@@ -1,5 +1,5 @@
 ---
-name: VyOS 1.4
+name: VyOS 1.4 Autobuild
 
 on:
   workflow_dispatch:
@@ -13,8 +13,10 @@ jobs:
     defaults:
       run:
         shell: bash
+
     permissions:
       contents: write
+
     container:
       image: vyos/vyos-build:sagitta
       env:
@@ -22,30 +24,39 @@ jobs:
       options: --privileged
 
     steps:
-      - name: Clone vyos-build repository
+      - name: Clone the `vyos-build` repository
+        id: clone-upstream
         run: |
           set -eux
           git clone -b sagitta --single-branch https://github.com/vyos/vyos-build
-      - name: Get version number
+
+      - name: Get the latest upstream tag
+        id: get-upstream-tag
         working-directory: vyos-build
         run: |
-          echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
-      - name: Checkout to latest tag
+          echo "latest=$(git describe --tags --abbrev=0)" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout the `vyos-build` repository to the latest upstream tag
+        id: checkout-upstream-tag
         working-directory: vyos-build
         run: |
           set -eux
-          git checkout tags/${{ env.RELEASE_VERSION }}
-      - name: Build ISO
+          git checkout tags/${{ steps.get-upstream-tag.outputs.latest }}
+
+      - name: Build the VyOS ISO
+        id: build-iso
         working-directory: vyos-build
         run: |
           set -eux
-          ./build-vyos-image iso --architecture amd64 --build-by matthew@tech.bymatt.au --build-type release --version ${{ env.RELEASE_VERSION }}
-      - name: Create release
+          ./build-vyos-image iso --architecture amd64 --build-by vyos-autobuild@tech.bymatt.au --build-type release --version ${{ steps.get-upstream-tag.outputs.latest }}
+
+      - name: Create a new release
+        id: create-release
         uses: ncipollo/release-action@v1
         with:
-          name: "VyOS ${{ env.RELEASE_VERSION }}"
-          tag: "${{ env.RELEASE_VERSION }}"
-          artifacts: "vyos-build/build/vyos-${{ env.RELEASE_VERSION }}-amd64.iso"
+          name: "VyOS ${{ steps.get-upstream-tag.outputs.latest }}"
+          tag: "${{ steps.get-upstream-tag.outputs.latest }}"
+          artifacts: "vyos-build/build/vyos-${{ steps.get-upstream-tag.outputs.latest }}-amd64.iso"
           artifactContentType: application/x-iso9660-image
           draft: true
           allowUpdates: true
