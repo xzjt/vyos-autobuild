@@ -43,7 +43,7 @@ jobs:
           set -eux
           git checkout tags/${{ steps.get-upstream-tag.outputs.latest }}
 
-      - name: Get the latest commit ID for the tag
+      - name: Get the commit ID for the latest upstream tag
         id: get-tag-commit-id
         working-directory: vyos-build
         run: |
