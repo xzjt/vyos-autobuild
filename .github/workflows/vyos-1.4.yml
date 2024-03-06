@@ -42,12 +42,12 @@ jobs:
         run: |
           echo "commit=$(git rev-list --max-count=1 tags/${{ steps.get-upstream-tag.outputs.latest }})" >> "$GITHUB_OUTPUT"
 
-      - name: Rebase the repository to the commit referenced by the tag
-        id: rebase-repo-to-tag
+      - name: Reset the repository to the latest tag's commit ID
+        id: reset-repo-to-tag
         working-directory: vyos-build
         run: |
           set -eux
-          git rebase -i ${{ steps.get-tag-commit-id.outputs.commit }}
+          git reset --hard ${{ steps.get-tag-commit-id.outputs.commit }}
 
       - name: Build the VyOS ISO
         id: build-iso
