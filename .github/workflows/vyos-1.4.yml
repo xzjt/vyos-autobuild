@@ -66,8 +66,11 @@ jobs:
           artifactContentType: application/x-iso9660-image
           artifactErrorsFailBuild: true
           body: |
-            Build commit: https://github.com/vyos/vyos-build/commit/${{ steps.get-tag-commit-id.outputs.commit }}
-            Commits since this build: https://github.com/vyos/vyos-build/compare/current...${{ steps.get-upstream-tag.outputs.latest }}
+            Last included `vyos-build` commit: https://github.com/vyos/vyos-build/commit/${{ steps.get-tag-commit-id.outputs.commit }}
+
+            Commits to `vyos-build` since this build: https://github.com/vyos/vyos-build/compare/${{ steps.get-upstream-tag.outputs.latest }}...sagitta
+
+            Commits to `vyos-1x` since this build: https://github.com/vyos/vyos-1x/compare/${{ steps.get-upstream-tag.outputs.latest }}...sagitta
           draft: true
           allowUpdates: true
           omitDraftDuringUpdate: true
