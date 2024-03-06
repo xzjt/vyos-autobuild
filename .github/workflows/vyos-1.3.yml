@@ -71,6 +71,7 @@ jobs:
           tag: "${{ steps.get-upstream-tag.outputs.latest }}"
           artifacts: "vyos-build/build/vyos-${{ steps.get-upstream-tag.outputs.latest }}-amd64.iso"
           artifactContentType: application/x-iso9660-image
+          artifactErrorsFailBuild: true
           body: |
             Build commit: https://github.com/vyos/vyos-build/commit/${{ steps.get-tag-commit-id.outputs.commit }}
             Commits since this build: https://github.com/vyos/vyos-build/compare/current...${{ steps.get-upstream-tag.outputs.latest }}
