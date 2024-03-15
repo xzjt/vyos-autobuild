@@ -85,6 +85,7 @@ jobs:
         shell: bash
     permissions:
       contents: write
+      packages: read
     container:
       image: ${{ vars.REGISTRY }}/${{ vars.REPO_OWNER }}/vyos-build:equuleus
       credentials:
