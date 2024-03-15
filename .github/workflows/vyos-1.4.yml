@@ -3,8 +3,9 @@ name: VyOS 1.4 Autobuild
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 3 * * SAT'
+  repository_dispatch:
+    types:
+      - blog_1.4
 
 jobs:
   build-iso:
