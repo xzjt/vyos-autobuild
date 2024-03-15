@@ -45,12 +45,12 @@ jobs:
           set -eux
           echo "commit=$(git rev-list --max-count=1 tags/${{ steps.get-upstream-tag.outputs.latest }})" >> "$GITHUB_OUTPUT"
 
-      - name: Reset the repository to the latest tag's commit ID
-        id: reset-repo-to-tag
-        working-directory: vyos-build
-        run: |
-          set -eux
-          git reset --hard ${{ steps.get-tag-commit-id.outputs.commit }}
+      # - name: Reset the repository to the latest tag's commit ID
+      #   id: reset-repo-to-tag
+      #   working-directory: vyos-build
+      #   run: |
+      #     set -eux
+      #     git reset --hard ${{ steps.get-tag-commit-id.outputs.commit }}
 
       - name: Configure the VyOS build
         id: configure-build
