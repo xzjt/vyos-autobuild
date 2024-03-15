@@ -82,5 +82,5 @@ jobs:
 
             Commits to `vyos-1x` since this build: https://github.com/vyos/vyos-1x/compare/${{ steps.get-upstream-tag.outputs.latest }}...equuleus
           draft: true
-          allowUpdates: true
+          allowUpdates: false
           omitDraftDuringUpdate: true
