@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - blog_1.4
+      - 1.4 Blog Release
 
 jobs:
   get-version:
@@ -78,7 +78,7 @@ jobs:
 
 
   build-iso:
-    name: Build VyOS ISO
+    name: Build and release VyOS ISO
     runs-on: ubuntu-latest
     needs: [get-version, build-and-push-container]
     defaults:
