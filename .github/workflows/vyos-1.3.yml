@@ -7,10 +7,6 @@ on:
     types:
       - blog_1.3
 
-env:
-  REGISTRY: ghcr.io
-  REPO_OWNER: mattkobayashi
-
 jobs:
   build-and-push-container:
     name: Build and push `vyos-build` container
@@ -46,10 +42,10 @@ jobs:
         run: |
           set -eux
           git reset --hard ${{ steps.get-tag-commit-id.outputs.commit }}
-      - name: Log into registry ${{ env.REGISTRY }}
+      - name: Log into registry ${{ vars.REGISTRY }}
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ vars.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image
@@ -57,7 +53,7 @@ jobs:
         with:
           context: vyos-build/docker
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/vyos-build:equuleus
+          tags: ${{ vars.REGISTRY }}/${{ vars.REPO_OWNER }}/vyos-build:equuleus
 
   build-iso:
     name: Build VyOS ISO
@@ -69,7 +65,7 @@ jobs:
     permissions:
       contents: write
     container:
-      image: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/vyos-build:equuleus
+      image: ${{ vars.REGISTRY }}/${{ vars.REPO_OWNER }}/vyos-build:equuleus
       env:
         TZ: Australia/Brisbane
       options: --privileged
