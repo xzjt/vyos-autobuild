@@ -69,7 +69,7 @@ jobs:
     permissions:
       contents: write
     container:
-      image: mattkobayashi/vyos-build:equuleus
+      image: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/vyos-build:equuleus
       env:
         TZ: Australia/Brisbane
       options: --privileged
