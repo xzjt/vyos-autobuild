@@ -47,7 +47,7 @@ jobs:
         with:
           registry: ${{ vars.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.github_token }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -66,6 +66,9 @@ jobs:
       contents: write
     container:
       image: ${{ vars.REGISTRY }}/${{ vars.REPO_OWNER }}/vyos-build:equuleus
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
       env:
         TZ: Australia/Brisbane
       options: --privileged
