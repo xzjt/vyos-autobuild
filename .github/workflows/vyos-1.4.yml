@@ -129,7 +129,7 @@ jobs:
         working-directory: vyos-build
         run: |
           set -eux
-          ./build-vyos-image iso --architecture amd64 --build-by vyos-autobuild@tech.bymatt.au --build-type release --version ${{ needs.get-version.outputs.version }}
+          ./build-vyos-image iso --architecture amd64 --build-by admin@ovirt.club --build-type release --version ${{ needs.get-version.outputs.version }}
       - name: Create a new release
         id: create-release
         uses: ncipollo/release-action@v1
